@@ -10,7 +10,7 @@ use File::Spec;
 use IPC::Open3;
 use Symbol 'gensym';
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 our @EXPORT = qw(
     pod_file_spelling_ok
@@ -216,7 +216,10 @@ sub _is_perl {
 }
 
 sub add_stopwords {
-    for my $word (@_) {
+    for (@_) {
+        # explicit copy so we don't modify constants as in add_stopwords("SQLite")
+        my $word = $_;
+
         # XXX: the processing this performs is to support "perl t/spell.t 2>>
         # t/spell.t" which is bunk. in the near future the processing here will
         # become more modern
