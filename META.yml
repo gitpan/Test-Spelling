@@ -4,10 +4,12 @@ author:
   - ', Ivan Tubert-Brohman, All Rights Reserved.'
 build_requires:
   ExtUtils::MakeMaker: 6.42
+  Test::More: 0.88
+  Test::Tester: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 1.00'
+generated_by: 'Module::Install version 1.01'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -21,6 +23,10 @@ requires:
   Pod::Spell: 1.01
   perl: 5.6.0
 resources:
+  homepage: http://github.com/sartak/test-spelling/tree
   license: http://dev.perl.org/licenses/
-  repository: http://github.com/bestpractical/test-spelling
-version: 0.14
+  repository:
+    type: git
+    url: git://github.com/sartak/test-spelling.git
+    web: http://github.com/sartak/test-spelling/tree
+version: 0.15

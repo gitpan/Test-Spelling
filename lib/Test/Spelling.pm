@@ -10,7 +10,7 @@ use File::Spec;
 use IPC::Open3;
 use Symbol 'gensym';
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 our @EXPORT = qw(
     pod_file_spelling_ok
@@ -276,16 +276,16 @@ your distribution's F<xt/> directory. Anyway, people installing your module
 really do not need to run such tests, as it is unlikely that the documentation
 will acquire typos while in transit. :-)
 
-You can add your own stopwords, which are words that should be ignored by the
+You can add your own stop words, which are words that should be ignored by the
 spell check, like so:
 
     add_stopwords(qw(asdf thiswordiscorrect));
 
-Adding stopwards in this fashion affects all files checked for the remainder of
+Adding stop words in this fashion affects all files checked for the remainder of
 the test script. See L<Pod::Spell> (which this module is built upon) for a
-variety of ways to add per-file stopwords to each .pm file.
+variety of ways to add per-file stop words to each .pm file.
 
-If you have a lot of stopwords, it's useful to put them in your test file's
+If you have a lot of stop words, it's useful to put them in your test file's
 C<DATA> section like so:
 
     use Test::Spelling;
@@ -323,7 +323,7 @@ in the L</SYNOPSIS>.
 Returns true if every POD file has correct spelling, or false if any of them fail.
 This function will show any spelling errors as diagnostics.
 
-=head2 pod_file_spelling_ok( FILENAME[, TESTNAME ] )
+=head2 pod_file_spelling_ok( $filename[, $testname ] )
 
 C<pod_file_spelling_ok> will test that the given POD file has no spelling
 errors.
@@ -331,9 +331,9 @@ errors.
 When it fails, C<pod_file_spelling_ok> will show any spelling errors as
 diagnostics.
 
-The optional second argument TESTNAME is the name of the test.  If it
-is omitted, C<pod_file_spelling_ok> chooses a default test name "POD spelling
-for FILENAME".
+The optional second argument is the name of the test.  If it is
+omitted, C<pod_file_spelling_ok> chooses a default test name "POD
+spelling for C<$filename>".
 
 =head2 all_pod_files( [@dirs] )
 
