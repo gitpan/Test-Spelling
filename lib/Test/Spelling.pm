@@ -20,12 +20,14 @@ our @EXPORT = qw(
     all_pod_files
     set_pod_file_filter
     has_working_spellchecker
+    set_pod_parser
 );
 
 my $TEST = Test::Builder->new;
 
 my $SPELLCHECKER;
 my $FILE_FILTER = sub { 1 };
+my $POD_PARSER  = Pod::Spell->new;
 
 sub spellchecker_candidates {
     # if they've specified a spellchecker, use only that one
@@ -112,8 +114,7 @@ sub invalid_words_in {
     open my $handle, '>', \$document;
 
     # save digested POD to the string $document
-    my $checker = Pod::Spell->new;
-    $checker->parse_from_file($file, $handle);
+    $POD_PARSER->parse_from_file($file, $handle);
 
     my @words = _get_spellcheck_results($document);
 
@@ -238,6 +239,10 @@ sub set_pod_file_filter {
     $FILE_FILTER = shift;
 }
 
+sub set_pod_parser {
+    $POD_PARSER = shift;
+}
+
 1;
 
 __END__
@@ -276,16 +281,16 @@ your distribution's F<xt/> directory. Anyway, people installing your module
 really do not need to run such tests, as it is unlikely that the documentation
 will acquire typos while in transit. :-)
 
-You can add your own stop words, which are words that should be ignored by the
+You can add your own stopwords, which are words that should be ignored by the
 spell check, like so:
 
     add_stopwords(qw(asdf thiswordiscorrect));
 
-Adding stop words in this fashion affects all files checked for the remainder of
+Adding stopwards in this fashion affects all files checked for the remainder of
 the test script. See L<Pod::Spell> (which this module is built upon) for a
-variety of ways to add per-file stop words to each .pm file.
+variety of ways to add per-file stopwords to each .pm file.
 
-If you have a lot of stop words, it's useful to put them in your test file's
+If you have a lot of stopwords, it's useful to put them in your test file's
 C<DATA> section like so:
 
     use Test::Spelling;
@@ -323,7 +328,7 @@ in the L</SYNOPSIS>.
 Returns true if every POD file has correct spelling, or false if any of them fail.
 This function will show any spelling errors as diagnostics.
 
-=head2 pod_file_spelling_ok( $filename[, $testname ] )
+=head2 pod_file_spelling_ok( FILENAME[, TESTNAME ] )
 
 C<pod_file_spelling_ok> will test that the given POD file has no spelling
 errors.
@@ -331,9 +336,9 @@ errors.
 When it fails, C<pod_file_spelling_ok> will show any spelling errors as
 diagnostics.
 
-The optional second argument is the name of the test.  If it is
-omitted, C<pod_file_spelling_ok> chooses a default test name "POD
-spelling for C<$filename>".
+The optional second argument TESTNAME is the name of the test.  If it
+is omitted, C<pod_file_spelling_ok> chooses a default test name "POD spelling
+for FILENAME".
 
 =head2 all_pod_files( [@dirs] )
 
@@ -394,6 +399,13 @@ L</all_pod_files_spelling_ok>).
         return 0 if $filename =~ /_ja.pod$/; # skip Japanese translations
         return 1;
     });
+
+=head2 set_pod_parser($object)
+
+By default L<Pod::Spell> is used to generate text suitable for spellchecking
+from the input POD.  If you want to use a different parser, perhaps a
+customized subclass of L<Pod::Spell>, call C<set_pod_parser> with an object
+that isa L<Pod::Parser>.
 
 =head1 SEE ALSO
 
