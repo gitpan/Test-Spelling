@@ -1,7 +1,13 @@
 Revision history for Test-Spelling
 
-0.15  2012-12-14
-        - Allow for the use of different POD parsers instead of Pod::Spell
+0.16  2012-12-20
+        - Allow use of a custom POD parser rather than Pod::Spell
+          using set_pod_parser (Thomas Sibley)
+
+0.15  2011-08-22
+        - Begin adding actual tests
+          (Hilariously, adding the suggested t/pod-spell.t to this
+          dist to test itself found a typo: "stopwards")
 
 0.14  2011-05-27
         - Fix an error when using add_stopwords("constant", "strings")

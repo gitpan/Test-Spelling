@@ -4,6 +4,8 @@ author:
   - ', Ivan Tubert-Brohman, All Rights Reserved.'
 build_requires:
   ExtUtils::MakeMaker: 6.59
+  Test::More: 0.88
+  Test::Tester: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.59
 distribution_type: module
@@ -22,6 +24,10 @@ requires:
   Pod::Spell: 1.01
   perl: 5.6.0
 resources:
+  homepage: https://github.com/sartak/test-spelling/tree
   license: http://dev.perl.org/licenses/
-  repository: http://github.com/bestpractical/test-spelling
-version: 0.15
+  repository:
+    type: git
+    url: git://github.com/sartak/test-spelling.git
+    web: https://github.com/sartak/test-spelling/tree
+version: 0.16
