@@ -21,13 +21,11 @@ no_index:
     - inc
     - t
 requires:
+  IPC::Run3: 0.044
   Pod::Spell: 1.01
   perl: 5.6.0
 resources:
   homepage: https://github.com/sartak/test-spelling/tree
   license: http://dev.perl.org/licenses/
-  repository:
-    type: git
-    url: git://github.com/sartak/test-spelling.git
-    web: https://github.com/sartak/test-spelling/tree
-version: 0.16
+  repository: git://github.com/sartak/test-spelling.git
+version: 0.17

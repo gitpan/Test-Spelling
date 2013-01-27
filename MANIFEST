@@ -20,6 +20,7 @@ t/corpus/bad-pod.pm
 t/corpus/good-pod.pm
 t/corpus/no-pod.pm
 t/corpus/stopword.pm
+t/fake_checker.t
 t/load.t
 t/pod-spell.t
 t/pod.t
