@@ -10,7 +10,7 @@ use File::Spec;
 use IPC::Run3;
 use Symbol 'gensym';
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 our @EXPORT = qw(
     pod_file_spelling_ok
@@ -27,7 +27,7 @@ my $TEST = Test::Builder->new;
 
 my $SPELLCHECKER;
 my $FILE_FILTER = sub { 1 };
-my $POD_PARSER  = Pod::Spell->new;
+my $POD_PARSER;
 
 sub spellchecker_candidates {
     # if they've specified a spellchecker, use only that one
@@ -101,7 +101,7 @@ sub invalid_words_in {
     open my $handle, '>', \$document;
 
     # save digested POD to the string $document
-    $POD_PARSER->parse_from_file($file, $handle);
+    get_pod_parser()->parse_from_file($file, $handle);
 
     my @words = _get_spellcheck_results($document);
 
@@ -122,7 +122,8 @@ sub pod_file_spelling_ok {
     my @words = invalid_words_in($file);
 
     # remove stopwords, select unique errors
-    @words = grep { !$Pod::Wordlist::Wordlist{$_} } @words;
+    my $WL = \%Pod::Wordlist::Wordlist;
+    @words = grep { !$WL->{$_} && !$WL->{lc $_} } @words;
     my %seen;
     @seen{@words} = ();
     @words = sort keys %seen;
@@ -148,6 +149,7 @@ sub all_pod_files_spelling_ok {
 
     my $ok = 1;
     for my $file (@files) {
+        local $Test::Builder::Level = $Test::Builder::Level + 1;
         pod_file_spelling_ok($file) or undef $ok;
     }
     return $ok;
@@ -224,6 +226,12 @@ sub set_spell_cmd {
 
 sub set_pod_file_filter {
     $FILE_FILTER = shift;
+}
+
+# A new Pod::Spell object should be used for every file; people
+# providing custom pod parsers will have to do this themselves
+sub get_pod_parser {
+    return $POD_PARSER || Pod::Spell->new;
 }
 
 sub set_pod_parser {
@@ -392,7 +400,8 @@ L</all_pod_files_spelling_ok>).
 By default L<Pod::Spell> is used to generate text suitable for spellchecking
 from the input POD.  If you want to use a different parser, perhaps a
 customized subclass of L<Pod::Spell>, call C<set_pod_parser> with an object
-that is-a L<Pod::Parser>.
+that is-a L<Pod::Parser>.  Be sure to create a fresh parser object for
+each file (don't use this with C<all_pod_files_spelling_ok>).
 
 =head1 SEE ALSO
 
