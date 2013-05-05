@@ -10,7 +10,7 @@ use File::Spec;
 use IPC::Run3;
 use Symbol 'gensym';
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 our @EXPORT = qw(
     pod_file_spelling_ok
@@ -35,7 +35,7 @@ sub spellchecker_candidates {
 
     return (
         'spell', # for back-compat, this is the top candidate ...
-        'aspell list -l en', # ... but this should become first soon
+        'aspell list -l en -p /dev/null', # ... but this should become first soon
         'ispell -l',
         'hunspell -l',
     );
