@@ -1,8 +1,13 @@
 Revision history for Test-Spelling
 
+0.20  2014-10-07
+        - Add a sorted list of your most commonly misspelled words to
+          the end of all_pod_files_spelling_ok to aid stopword list creation
+          and bulk correction. (Kent Fredric)
+
 0.19  2013-05-05
         - for more consistent results avoid using the user's local aspell
-          dictionary [rt.cpan.org #56483] (Karen Etheridge)
+          dictionary [rt.cpan.org #84869] (Karen Etheridge)
 
 0.18  2013-04-26
         - Work around Pod::Spell limitations (David Golden)
